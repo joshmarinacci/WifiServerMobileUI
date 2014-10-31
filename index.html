@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  	<div class='container'>
+  		<div class='row'>
+  			<div class='col-xs-12'>
+  				<h1>WifiServer</h1>
+  			</div>
+  		</div>
+  		<div class='row'>
+  			<div class='col-xs-12'>
+  				<h3 id='status'>Scanning / Or disconnected or connected </h3>
+  				<div class='list-group' id='ap-list'>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+  
+  <script type='text/javascript'>
+  	$(document).ready(function() {
+	  	console.log("we are ready");
+	  	
+	  	function startScan() {
+	  		$('#status').text("Scanning");
+	  		setTimeout(populateList,3000);
+	  	}
+	  	function endScan() {
+		  	
+	  	}
+	  	
+	  	function connectTo(name) {
+	  		$('#status').html("Connecting to <i>"+name+"</i>");
+	  		setTimeout(function(){
+			  	var aplist = $('#ap-list').empty();
+			  	$('#status').html("connected. Please connect back to your regular wifi now.");
+	  		},2000);
+	  	}
+	  	
+	  	function populateList() {
+	  		$('#status').text("Choose wifi network");
+		  	
+		  	var aps = [
+		  		"ap1",
+		  		"ap2",
+		  		"ap3",
+		  	]
+		  	var aplist = $('#ap-list');
+			aplist.empty();
+		  	aps.forEach(function(ap) {
+		  		$('<a href="#" class="list-group-item" data-name="'+ap+'">'+ap+'</a>\n').appendTo(aplist).click(function() {
+			  		console.log('selected the AP',$(this).attr('data-name'));
+			  		$(this).addClass('active');
+			  		connectTo($(this).attr('data-name'));
+			  	});
+		  	});
+	  	}
+	  	
+	  	startScan();
+  	});
+  </script>
+</html>
